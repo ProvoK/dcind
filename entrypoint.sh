@@ -6,6 +6,10 @@ set -e
 source /docker-lib.sh
 start_docker
 
+# "Temporary" fix for https://github.com/docker/for-linux/issues/219
+mkdir /sys/fs/cgroup/systemd
+mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd
+
 # first arg is `-f` or `--some-option`
 if [ "${1#-}" != "$1" ]; then
 	set -- docker-compose "$@"
